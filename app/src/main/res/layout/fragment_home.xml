@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ceren.salesorders.HomeFragment"
+    android:id="@+id/fragment_home"
+    android:padding="16dp">
+
+    <ProgressBar
+        android:id="@+id/home_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/home_form"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_Hello"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="8pt"
+                android:textColor="@color/colorAccent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_BalanceLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/balance_amount_Label"
+                    android:textSize="7pt"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/textView_Balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/balance_amount"
+                    android:textSize="7pt"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView_LastLoginLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last_login"
+                    android:textSize="6pt"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/textView_LastLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last_login"
+                    android:textSize="6pt"
+                    android:layout_marginTop="10dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView_RecentTransLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recent_transactions"
+                android:layout_marginTop="10dp"
+                android:textSize="6pt"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <ExpandableListView
+                android:id="@+id/listViewRecentTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp">
+            </ExpandableListView>
+
+<!--
+            <ListView
+                android:id="@+id/listViewRecentTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_RecentTransLabel"
+                android:layout_marginBottom="8dp">
+
+            </ListView>
+-->
+
+        </LinearLayout>
+
+</RelativeLayout>

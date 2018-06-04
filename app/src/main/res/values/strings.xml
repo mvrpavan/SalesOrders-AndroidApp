@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Sales Orders</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="auth_failed">Invalid Email/Password</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="name">Name</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="profile_update_succeeded">Profile Updated successfully</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="home">Home</string>
+    <string name="exit">Exit</string>
+
+    <string name="hello">Hello Home</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="balance_amount_Label">Current Balance: </string>
+    <string name="last_login">Last Login: </string>
+    <string name="more_details">More Details</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="retype_new_password">Retype New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="contact_person">Contact Person: </string>
+    <string name="contact_number">Contact Number: </string>
+    <string name="seller_name">Seller Name: </string>
+    <string name="address">Address: </string>
+    <string name="profile">Profile</string>
+
+    <!-- Transaction History List Item Child -->
+    <string name="sale_amount">Sale Amount: </string>
+    <string name="cancel_amount">Cancel Amount: </string>
+    <string name="return_amount">Return Amount: </string>
+    <string name="discount_amount">Discount: </string>
+    <string name="totalTax_amount">Total Tax: </string>
+    <string name="netSale_amount">Bill Amount: </string>
+    <string name="oldBalance_amount">Old Balance Amount: </string>
+    <string name="cashPaid_amount">Cash Paid: </string>
+    <string name="balance_amount">Balance Amount: </string>
+    <string name="choose_date_range">Choose Date Range:</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_table_view">TableView</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ceren">Ceren</string>
+</resources>

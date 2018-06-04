@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "187378960569",
+    "firebase_url": "https://salesorders-ab60b.firebaseio.com",
+    "project_id": "salesorders-ab60b",
+    "storage_bucket": "salesorders-ab60b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187378960569:android:25aec0f5f63ef5d8",
+        "android_client_info": {
+          "package_name": "com.ceren.salesorders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187378960569-jjg47gl899cglfh5amcvlcuc16uq3kjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ceren.salesorders",
+            "certificate_hash": "e419b334e096b3da3822567168911c663802477b"
+          }
+        },
+        {
+          "client_id": "187378960569-a1jt4oogvudgbhfq7sp7arol2b4jisqv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ceren.salesorders",
+            "certificate_hash": "646ea0f31e85df0a26f545bb4a06a9eebdaa6d3d"
+          }
+        },
+        {
+          "client_id": "187378960569-b36ltk4ad12rji8fkb07dhg36shn01gn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAosWTITeEP7N3I8Vvx0FxUmKw5Yf1VM7g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187378960569-b36ltk4ad12rji8fkb07dhg36shn01gn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
