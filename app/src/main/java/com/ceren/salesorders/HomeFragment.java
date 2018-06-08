@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,6 +42,7 @@ public class HomeFragment extends Fragment {
     private View mHomeFormView;
     private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("hi", "IN"));
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SwipeRefreshLayout HomeFragmentSwipeLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -71,7 +70,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         textView_Hello = view.findViewById(R.id.textView_Hello);
         listViewRecentTransactions = view.findViewById(R.id.listViewRecentTransactions);
@@ -96,17 +95,13 @@ public class HomeFragment extends Fragment {
                 firebaseDBHandler.LoadCurrentUserData(new Runnable() {
                     @Override
                     public void run() {
+                        textView_BalanceAmount.setText(currencyFormat.format(firebaseDBHandler.getCurrentUserData().getBalanceAmount()));
+
                         firebaseDBHandler.LoadRecentTransactionsData(new Runnable() {
                             @Override
                             public void run() {
                                 List<TransactionDetails> ListTransactionDetails = firebaseDBHandler.GetListRecentTransactionDetails();
 
-                                /*DatabaseHandler db = new DatabaseHandler(getContext(), mUser.getUid());
-                                db.deleteAllTransactionDetails();
-                                for (TransactionDetails transactionDetails : ListTransactionDetails) {
-                                    db.addTransactionDetailsToRecent(transactionDetails);
-                                }
-                                db.close();*/
                                 TransactionHistoryAdapter transactionHistoryAdapter = new TransactionHistoryAdapter(getActivity(), ListTransactionDetails);
                                 listViewRecentTransactions.setAdapter(transactionHistoryAdapter);
                                 fabReload.clearAnimation();
@@ -114,6 +109,36 @@ public class HomeFragment extends Fragment {
                                 showProgress(false);
                                 Snackbar.make(view, "Recent Transactions refreshed", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        HomeFragmentSwipeLayout = view.findViewById(R.id.HomeFragmentSwipeLayout);
+        HomeFragmentSwipeLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light));
+
+        HomeFragmentSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(mUser.getUid());
+                firebaseDBHandler.LoadCurrentUserData(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView_BalanceAmount.setText(currencyFormat.format(firebaseDBHandler.getCurrentUserData().getBalanceAmount()));
+
+                        firebaseDBHandler.LoadRecentTransactionsData(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<TransactionDetails> ListTransactionDetails = firebaseDBHandler.GetListRecentTransactionDetails();
+
+                                TransactionHistoryAdapter transactionHistoryAdapter = new TransactionHistoryAdapter(getActivity(), ListTransactionDetails);
+                                listViewRecentTransactions.setAdapter(transactionHistoryAdapter);
+                                HomeFragmentSwipeLayout.setRefreshing(false);
                             }
                         });
                     }

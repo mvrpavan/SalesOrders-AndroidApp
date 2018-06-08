@@ -15,6 +15,11 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/HomeFragmentSwipeLayout">
+
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -92,17 +97,18 @@
                 android:layout_marginBottom="8dp">
             </ExpandableListView>
 
-<!--
-            <ListView
-                android:id="@+id/listViewRecentTransactions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView_RecentTransLabel"
-                android:layout_marginBottom="8dp">
+            <!--
+                        <ListView
+                            android:id="@+id/listViewRecentTransactions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/textView_RecentTransLabel"
+                            android:layout_marginBottom="8dp">
 
-            </ListView>
--->
+                        </ListView>
+            -->
 
         </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
