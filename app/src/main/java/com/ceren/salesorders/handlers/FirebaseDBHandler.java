@@ -67,7 +67,23 @@ public class FirebaseDBHandler {
                 Log.d("", "loadUserData:onDataChange:" + dataSnapshot.getChildrenCount());
                 // Get userData object and use the values to update the UI
                 currentUserData = dataSnapshot.getValue(UserData.class);
-                if (func != null) func.run();
+
+                if (currentUserData.getLinkedSellerUIDs() == null || currentUserData.getLinkedSellerUIDs().size() == 0) {
+                    if (func != null) func.run();
+                }
+                else {
+                    final List<String> ListSellerUIDs = new ArrayList<>();
+                    final List<String> ListSellerNames = new ArrayList<>();
+                    ListSellerUIDs.add(mUser.getUid()); ListSellerNames.add(mUser.getDisplayName());
+                    getSellerNamesForUIDs(currentUserData.getLinkedSellerUIDs(), ListSellerUIDs, ListSellerNames, new Runnable() {
+                        @Override
+                        public void run() {
+                            currentUserData.setLinkedSellerUIDs(ListSellerUIDs);
+                            currentUserData.setLinkedSellerNames(ListSellerNames);
+                            if (func != null) func.run();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -209,7 +225,7 @@ public class FirebaseDBHandler {
     public List<TransactionDetails> GetListRecentTransactionDetails() { return ListRecentTransactionDetails; }
 
     public void UpdateDisplayName(final String NewDispalyName, final Runnable callbackFunc) {
-        UserDataReference.child(UID).child("DisplayName").setValue(NewDispalyName).addOnCompleteListener(new OnCompleteListener<Void>() {
+        UserDataReference.child(mUser.getUid()).child("DisplayName").setValue(NewDispalyName).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Log.d("FirebaseDBHandler", "UpdateDisplayName(), Name changed to:" + NewDispalyName);
@@ -234,5 +250,36 @@ public class FirebaseDBHandler {
 
     public void updateLastLoginDate(Date loginDate) {
         UserDataReference.child(UID).child("LastLoginDate").setValue(dateTimeFormat.format(loginDate));
+    }
+
+    public void getSellerNamesForUIDs(final List<String> ListInputSellerUIDs, final List<String> ListSellerUIDs, final List<String> ListSellerNames, final Runnable callbackFunc) {
+        if (ListSellerUIDs == null || ListSellerUIDs.size() == 0) {
+            if (callbackFunc != null) callbackFunc.run();
+        }
+
+        UserDataReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (String SellerUID : ListInputSellerUIDs) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.getKey().equals(SellerUID)) {
+                                ListSellerUIDs.add(SellerUID);
+                                ListSellerNames.add(ds.child("SellerName").getValue().toString());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (callbackFunc != null) callbackFunc.run();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("FirebaseDB", "getSellerNamesForUIDs:onCancelled", databaseError.toException());
+                if (callbackFunc != null) callbackFunc.run();
+            }
+        });
     }
 }

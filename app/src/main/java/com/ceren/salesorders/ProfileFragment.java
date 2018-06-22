@@ -33,8 +33,10 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class ProfileFragment extends Fragment {
     private static FirebaseUser mUser;
-    private EditText editTextDisplayName, editTextOldPassword, editTextNewPassword, editTextRetypeNewPassword;
     private View mProfileFormView, mProgressView;
+    private TextView textViewSellerName, textViewAddress, textViewContactPerson, textViewContactNumber;
+    private EditText editTextDisplayName, editTextOldPassword, editTextNewPassword, editTextRetypeNewPassword;
+    private Button buttonUpdateProfile, buttonChangePassword;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -60,7 +62,6 @@ public class ProfileFragment extends Fragment {
         mProfileFormView = view.findViewById(R.id.profile_form);
         mProgressView = view.findViewById(R.id.profile_progress);
 
-        TextView textViewSellerName, textViewAddress, textViewContactPerson, textViewContactNumber;
         textViewSellerName = view.findViewById(R.id.profile_textView_seller_name);
         textViewAddress = view.findViewById(R.id.profile_textView_address);
         textViewContactPerson = view.findViewById(R.id.profile_textView_contact_person);
@@ -71,16 +72,27 @@ public class ProfileFragment extends Fragment {
         editTextNewPassword = view.findViewById(R.id.profile_editText_newPassword);
         editTextRetypeNewPassword = view.findViewById(R.id.profile_editText_RetypeNewPassword);
 
-        final FirebaseDBHandler fb = FirebaseDBHandler.getInstance(mUser.getUid());
+        buttonUpdateProfile = view.findViewById(R.id.profile_button_update_profile);
+        buttonChangePassword = view.findViewById(R.id.profile_button_change_password);
+
+        final FirebaseDBHandler fb = FirebaseDBHandler.getInstance(MainActivity.UID);
         UserData currentUserData = fb.getCurrentUserData();
 
-        textViewSellerName.setText(currentUserData.getSellerName());
-        textViewAddress.setText(currentUserData.getAddress());
-        textViewContactPerson.setText(currentUserData.getContactPerson());
-        textViewContactNumber.setText(currentUserData.getContactNumber());
-        editTextDisplayName.setText(currentUserData.getDisplayName());
+        if (currentUserData == null) {
+            showProgress(true);
+            fb.LoadCurrentUserData(new Runnable() {
+                @Override
+                public void run() {
+                    UserData currentUserData = fb.getCurrentUserData();
+                    SetViewDataFromCurrentUserData(currentUserData);
+                    showProgress(false);
+                }
+            });
+        }
+        else {
+            SetViewDataFromCurrentUserData(currentUserData);
+        }
 
-        Button buttonUpdateProfile = view.findViewById(R.id.profile_button_update_profile);
         buttonUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +118,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        Button buttonChangePassword = view.findViewById(R.id.profile_button_change_password);
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +189,23 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void SetViewDataFromCurrentUserData(UserData currentUserData) {
+        textViewSellerName.setText(currentUserData.getSellerName());
+        textViewAddress.setText(currentUserData.getAddress());
+        textViewContactPerson.setText(currentUserData.getContactPerson());
+        textViewContactNumber.setText(currentUserData.getContactNumber());
+        editTextDisplayName.setText(currentUserData.getDisplayName());
+
+        if (!MainActivity.UID.equals(mUser.getUid())) {
+            editTextDisplayName.setEnabled(false);
+            editTextOldPassword.setEnabled(false);
+            editTextNewPassword.setEnabled(false);
+            editTextRetypeNewPassword.setEnabled(false);
+            buttonUpdateProfile.setEnabled(false);
+            buttonChangePassword.setEnabled(false);
+        }
     }
 
     void LoadLoginActivity(View view) {

@@ -201,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                                     public void run() {
                                         showProgress(false);
                                         finish();
+                                        MainActivity.UID = null;
                                         Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(MainIntent);
                                     }

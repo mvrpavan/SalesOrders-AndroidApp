@@ -18,14 +18,19 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ceren.salesorders.handlers.FirebaseDBHandler;
+import com.ceren.salesorders.models.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseUser mUser;
     private FloatingActionButton fabReload;
+    public static String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +67,36 @@ public class MainActivity extends AppCompatActivity
             nav_header_Name.setText(mUser.getDisplayName());
             nav_header_Email.setText(mUser.getEmail());
 
-            HomeFragment fragmentHome = HomeFragment.newInstance(mUser);
+            if (UID == null || UID.isEmpty()) UID = mUser.getUid();
+            HomeFragment fragmentHome = HomeFragment.newInstance(UID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.main_content, fragmentHome);
             ft.commit();
             getSupportActionBar().setTitle("Home");
             fabReload.setVisibility(View.VISIBLE);
 
+            final MenuItem switch_seller = navigationView.getMenu().getItem(2);
+            switch_seller.setEnabled(false);
+
+            final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(UID);
+            UserData CurrentUser = firebaseDBHandler.getCurrentUserData();
+            if (CurrentUser == null) {
+                firebaseDBHandler.LoadCurrentUserData(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<String> ListLinkedSellerUIDs = firebaseDBHandler.getCurrentUserData().getLinkedSellerUIDs();
+                        if (ListLinkedSellerUIDs != null && ListLinkedSellerUIDs.size() > 0) {
+                            switch_seller.setEnabled(true);
+                        }
+                    }
+                });
+            }
+            else {
+                List<String> ListLinkedSellerUIDs = firebaseDBHandler.getCurrentUserData().getLinkedSellerUIDs();
+                if (ListLinkedSellerUIDs != null && ListLinkedSellerUIDs.size() > 0) {
+                    switch_seller.setEnabled(true);
+                }
+            }
             navigationView.setCheckedItem(R.id.nav_home);
         }
         else {
@@ -125,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_home) {
-            HomeFragment fragmentHome = HomeFragment.newInstance(mUser);
+            HomeFragment fragmentHome = HomeFragment.newInstance(UID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.main_content, fragmentHome);
             ft.commit();
@@ -147,6 +175,12 @@ public class MainActivity extends AppCompatActivity
             ft.replace(R.id.main_content, fragmentProfile);
             ft.commit();
             getSupportActionBar().setTitle("Profile");
+        } else if (id == R.id.nav_switch_seller) {
+            SwitchSellerFragment fragmentSwitchSeller = SwitchSellerFragment.newInstance(mUser);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.main_content, fragmentSwitchSeller);
+            ft.commit();
+            getSupportActionBar().setTitle("Switch Seller");
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
 

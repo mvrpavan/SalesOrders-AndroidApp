@@ -34,7 +34,7 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-    private static FirebaseUser mUser = null;
+    private static String mUID;
     TextView textView_Hello, textView_BalanceAmount, textView_LastLogin;
     FirebaseDBHandler firebaseDBHandler;
     ExpandableListView listViewRecentTransactions;
@@ -52,12 +52,12 @@ public class HomeFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param user FirebaseUser.
+     * @param UID Selected Seller UID.
      * @return A new instance of fragment Login.
      */
-    public static HomeFragment newInstance(FirebaseUser user) {
+    public static HomeFragment newInstance(String UID) {
         HomeFragment fragment = new HomeFragment();
-        mUser = user;
+        mUID = UID;
         return fragment;
     }
 
@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
                 fabReload.setClickable(false);
 
                 showProgress(true);
-                final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(mUser.getUid());
+                final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(mUID);
                 firebaseDBHandler.LoadCurrentUserData(new Runnable() {
                     @Override
                     public void run() {
@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
         HomeFragmentSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(mUser.getUid());
+                final FirebaseDBHandler firebaseDBHandler = FirebaseDBHandler.getInstance(mUID);
                 firebaseDBHandler.LoadCurrentUserData(new Runnable() {
                     @Override
                     public void run() {
@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
         });
 
         showProgress(true);
-        firebaseDBHandler = FirebaseDBHandler.getInstance(mUser.getUid());
+        firebaseDBHandler = FirebaseDBHandler.getInstance(mUID);
         UserData currentUserData = firebaseDBHandler.getCurrentUserData();
         if (currentUserData == null) {
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {

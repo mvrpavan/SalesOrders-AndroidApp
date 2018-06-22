@@ -150,7 +150,7 @@ public class TransactionHistoryFragment extends Fragment {
                         editTextToDate.requestFocus();
                     } else {
                         showProgress(true);
-                        final FirebaseDBHandler fb = FirebaseDBHandler.getInstance(FirebaseAuth.getInstance().getUid());
+                        final FirebaseDBHandler fb = FirebaseDBHandler.getInstance(MainActivity.UID);
                         if (fromDate.before(dateFormat.parse(fb.getCurrentUserData().getFirstTransactionDate()))) {
                             fromDate = dateFormat.parse(fb.getCurrentUserData().getFirstTransactionDate());
                         }

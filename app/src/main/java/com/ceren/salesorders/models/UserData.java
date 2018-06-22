@@ -6,7 +6,7 @@ public class UserData {
     private String SellerName, DisplayName, ContactPerson, EmailAddress, ContactNumber, Address;
     private String FirstTransactionDate, LastTransactionDate, LastUpdateDate, LastLoginDate, LastLocalUpdateDate;
     private Integer TransactionCount;
-    private List<String> RecentTransactionDates;
+    private List<String> RecentTransactionDates, LinkedSellerUIDs, LinkedSellerNames;
     private Double BalanceAmount;
     private String ProductLine;
 
@@ -20,8 +20,7 @@ public class UserData {
     }
      */
 
-    public UserData() {
-    }
+    public UserData() { }
 
     public String getSellerName() {
         return SellerName;
@@ -75,17 +74,13 @@ public class UserData {
         return FirstTransactionDate;
     }
 
-    public void setFirstTransactionDate(String firstTransactionDate) {
-        FirstTransactionDate = firstTransactionDate;
-    }
+    public void setFirstTransactionDate(String firstTransactionDate) { FirstTransactionDate = firstTransactionDate; }
 
     public String getLastTransactionDate() {
         return LastTransactionDate;
     }
 
-    public void setLastTransactionDate(String lastTransactionDate) {
-        LastTransactionDate = lastTransactionDate;
-    }
+    public void setLastTransactionDate(String lastTransactionDate) { LastTransactionDate = lastTransactionDate; }
 
     public String getLastUpdateDate() {
         return LastUpdateDate;
@@ -107,25 +102,19 @@ public class UserData {
         return TransactionCount;
     }
 
-    public void setTransactionCount(Integer transactionCount) {
-        TransactionCount = transactionCount;
-    }
+    public void setTransactionCount(Integer transactionCount) { TransactionCount = transactionCount; }
 
     public List<String> getRecentTransactionDates() {
         return RecentTransactionDates;
     }
 
-    public void setRecentTransactionDates(List<String> recentTransactionDates) {
-        RecentTransactionDates = recentTransactionDates;
-    }
+    public void setRecentTransactionDates(List<String> recentTransactionDates) { RecentTransactionDates = recentTransactionDates; }
 
     public String getLastLocalUpdateDate() {
         return LastLocalUpdateDate;
     }
 
-    public void setLastLocalUpdateDate(String lastLocalUpdateDate) {
-        LastLocalUpdateDate = lastLocalUpdateDate;
-    }
+    public void setLastLocalUpdateDate(String lastLocalUpdateDate) { LastLocalUpdateDate = lastLocalUpdateDate; }
 
     public Double getBalanceAmount() {
         return BalanceAmount;
@@ -142,4 +131,14 @@ public class UserData {
     public void setProductLine(String productLine) {
         ProductLine = productLine;
     }
+
+    public List<String> getLinkedSellerUIDs() {
+        return LinkedSellerUIDs;
+    }
+
+    public void setLinkedSellerUIDs(List<String> linkedSellerUIDs) { LinkedSellerUIDs = linkedSellerUIDs; }
+
+    public List<String> getLinkedSellerNames() { return LinkedSellerNames; }
+
+    public void setLinkedSellerNames(List<String> linkedSellerNames) { LinkedSellerNames = linkedSellerNames; }
 }
